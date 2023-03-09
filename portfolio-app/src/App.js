@@ -58,6 +58,7 @@ const FlexWrap = styled.div`
   flex-wrap: wrap;
   width: 100%;
   transition: 0.5s ease-in;
+  margin-bottom: 50px;
 `
 const Introduce = styled.div`
     box-sizing: border-box;
@@ -102,6 +103,7 @@ const Profile = styled.div`
   background-image: url(${ProfileImg});
   background-size: cover;
   background-repeat: no-repeat;
+  filter : blur(1.5px);
   opacity: 0;
   transition: 0.5s ease-out;
 }
@@ -109,12 +111,12 @@ const Profile = styled.div`
 const Project = styled.div`
   width: 48%;
   height : 400px;
-  margin: 10px;
   border-radius: 20px;
   cursor: pointer;
   flex-shrink: 0;
   box-shadow: 1px 10px 10px lightgray;
   position: relative;
+  margin-bottom: 45px;
 `
 const ProjectImg = styled.img`
   position: relative;
@@ -148,6 +150,7 @@ const ScrollX = styled.div`
   border-radius: 20px;
   opacity: 0;
   transition: 0.5s ease-in;
+  margin-bottom: 40px ;
 `
 
 const Skill = styled.img`
