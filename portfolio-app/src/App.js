@@ -11,6 +11,7 @@ import VueImg from "./assets/vue.png";
 import JavaImg from "./assets/java.png";
 import SpringImg from "./assets/spring.png";
 import MySqlImg from "./assets/mysql2.png";
+import {useEffect, useRef} from "react";
 
 const Wrapper = styled.div`
     width : 100%;
@@ -22,11 +23,18 @@ const Container = styled.div`
     margin: 0 auto;
 `;
 const Header = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: white;
+  border-bottom: 1px solid lightgray;
   width: 100%;
   height: 30px;
   display: flex;
-  justify-content: right;
+  justify-content: center;
   align-items: center;
+  opacity: 0;
+  transition: 0.5s ease;
 `
 const Move = styled.div`
   display: flex;
@@ -34,14 +42,22 @@ const Move = styled.div`
 `
 const MoveItem = styled.a`
   display: inline-block;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: bold;
   margin-left: 50px;  
+  cursor: pointer;
 `
 const Section = styled.div`
     display: flex;
     justify-content: space-evenly;
-    flex-wrap: wrap;
     width: 100%;
+`
+const FlexWrap = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 100%;
+  transition: 0.5s ease-in;
 `
 const Introduce = styled.div`
     box-sizing: border-box;
@@ -52,6 +68,9 @@ const Introduce = styled.div`
     border-radius: 20px;
     background-image: url(${IntroImg});
     background-size: cover;
+    transition: 0.5s ease-out;
+    opacity: 0;
+    transform: scale(0.9);
 `;
 const Big = styled.p`
   font-size: 40px;
@@ -83,6 +102,9 @@ const Profile = styled.div`
   background-image: url(${ProfileImg});
   background-size: cover;
   background-repeat: no-repeat;
+  opacity: 0;
+  transition: 0.5s ease-out;
+}
 `
 const Project = styled.div`
   width: 48%;
@@ -104,7 +126,7 @@ const ProjectImg = styled.img`
   object-fit: cover;
   &:hover {
     transform: translateY(-10%);
-    transition: 1s ease;
+    transition: 0.5s ease;
   } 
   z-index: 2;
 `
@@ -124,6 +146,8 @@ const ScrollX = styled.div`
   height : 300px;
   overflow-x: scroll;
   border-radius: 20px;
+  opacity: 0;
+  transition: 0.5s ease-in;
 `
 
 const Skill = styled.img`
@@ -143,19 +167,46 @@ const Skill = styled.img`
 `
 
 function App() {
+    const headerEl = useRef(null);
+    const profileEl = useRef(null);
+    const introEl = useRef(null);
+    const skillEl = useRef(null);
+    const projectEl = useRef(null);
+    const move = (value) => {
+        if(value === "home") introEl.current.scrollIntoView({ behavior: 'smooth' });
+        else if(value === "project") projectEl.current.scrollIntoView({ behavior: 'smooth' });
+        else if(value === "skill") skillEl.current.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    useEffect(() => {
+        setTimeout(() => {
+            headerEl.current.style = "opacity:1;";
+        }, 1000);
+        setTimeout(() => {
+            profileEl.current.style = "opacity:1;"
+        }, 2500);
+        setTimeout(() => {
+            introEl.current.style = "opacity: 1; transform: scale(1.0);";
+        }, 2900);
+        setTimeout(() => {
+            skillEl.current.style = "opacity: 1;";
+        }, 3300);
+    },[]);
+
+
   return (
     <div className="App">
         <Wrapper>
             <Container>
-                <Header>
+                <Header ref={headerEl}>
                     <Move>
-                        <MoveItem>홈</MoveItem>
-                        <MoveItem>프로젝트</MoveItem>
-                        <MoveItem>기술 스택</MoveItem>
+                        <MoveItem onClick={() => move("home")}>HOME</MoveItem>
+                        <MoveItem onClick={() => move("skill")}>SKILL</MoveItem>
+                        <MoveItem onClick={() => move("project")}>PROJECT</MoveItem>
                     </Move>
                 </Header>
                 <Section>
-                    <Introduce>
+                    <Introduce ref={introEl}>
                         <Big>
                             안녕하세요.<br/>
                             프론트엔드 신입 개발자<br/>
@@ -169,10 +220,18 @@ function App() {
                             이력 확인
                         </Bottom>
                     </Introduce>
-                    <Profile src = {ProfileImg}>
+                    <Profile src = {ProfileImg} ref={profileEl}>
                     </Profile>
                 </Section>
-                <Section>
+                <ScrollX ref={skillEl}>
+                    <Skill src ={JsImg}></Skill>
+                    <Skill src={JavaImg}></Skill>
+                    <Skill src ={MySqlImg}></Skill>
+                    <Skill src={ReactImg}></Skill>
+                    <Skill src={VueImg}></Skill>
+                    <Skill src ={SpringImg}></Skill>
+                </ScrollX>
+                <FlexWrap ref = {projectEl}>
                     <Project>
                         <ProjectImg src = {P1}></ProjectImg>
                         <ProjectTitle>어드민 페이지</ProjectTitle>
@@ -189,15 +248,7 @@ function App() {
                         <ProjectImg src = {P4}></ProjectImg>
                         <ProjectTitle>페인트 회사 외주</ProjectTitle>
                     </Project>
-                </Section>
-                <ScrollX>
-                    <Skill src ={JsImg}></Skill>
-                    <Skill src={JavaImg}></Skill>
-                    <Skill src ={MySqlImg}></Skill>
-                    <Skill src={ReactImg}></Skill>
-                    <Skill src={VueImg}></Skill>
-                    <Skill src ={SpringImg}></Skill>
-                </ScrollX>
+                </FlexWrap>
             </Container>
         </Wrapper>
     </div>
